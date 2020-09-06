@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Config from 'react-native-config'
+import MapboxGL from '@react-native-mapbox-gl/maps'
+import Radar from 'react-native-radar'
 
 import {
   SafeAreaView,
@@ -11,32 +14,31 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen'
 
-import Radar from 'react-native-radar'
+MapboxGL.setAccessToken(Config.MAPBOX_ACCESS_TOKEN)
 
 const stringify = obj => (
   JSON.stringify(obj, null, 2)
 )
 
-Radar.on('events', (result) => {
-  console.log('events:', stringify(result))
-})
+// Radar.on('events', (result) => {
+//   console.log('events:', stringify(result))
+// })
 
-Radar.on('location', (result) => {
-  console.log('location:', stringify(result))
-})
+// Radar.on('location', (result) => {
+//   console.log('location:', stringify(result))
+// })
 
-Radar.on('clientLocation', (result) => {
-  console.log('clientLocation:', stringify(result))
-})
+// Radar.on('clientLocation', (result) => {
+//   console.log('clientLocation:', stringify(result))
+// })
 
-Radar.on('error', (err) => {
-  console.log('error:', stringify(err))
-})
+// Radar.on('error', (err) => {
+//   console.log('error:', stringify(err))
+// })
 
-Radar.on('log', (result) => {
-  console.log('log:', stringify(result))
-})
-
+// Radar.on('log', (result) => {
+//   console.log('log:', stringify(result))
+// })
 
 const MapView = () => {
   const [lastLocation, setLastLocation] = useState({ latitude: 50.875105, longitude: -114.123786 })
@@ -77,7 +79,7 @@ const MapView = () => {
       latitude: 40.737367,
       longitude: -73.869015
     },
-    radius: 800,  // in meters; default = 1000m; 800m = 0.5mi
+    radius: 800, // in meters; default = 1000m; 800m = 0.5mi
     chains: ['target'],
     limit: 10
   }).then((result) => {
@@ -101,14 +103,16 @@ const MapView = () => {
   //   console.log('autocomplete:', err);
   // });
 
-  
-
   return (
     <>
       <SafeAreaView>
-        <View style={styles.body}>
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionTitle}>RADAR MAP VIEW</Text>
+        <View>
+          <Text style={styles.sectionTitle}>MAPBOX MAP</Text>
+          <View style={styles.mapContainer}>
+            <MapboxGL.MapView
+              styleURL={MapboxGL.StyleURL.Satellite}
+              style={styles.map}
+            />
           </View>
         </View>
       </SafeAreaView>
@@ -117,9 +121,6 @@ const MapView = () => {
 }
 
 const styles = StyleSheet.create({
-  body: {
-    backgroundColor: Colors.white
-  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24
@@ -128,6 +129,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     color: Colors.black
+  },
+  mapContainer: {
+    height: '100%',
+    width: '100%'
+  },
+  map: {
+    height: '100%'
   }
 })
 
