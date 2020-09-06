@@ -6,18 +6,13 @@
 import React from 'react'
 
 import {
-  SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
-  Text,
-  TouchableOpacity,
-  StatusBar
+  TouchableOpacity
 } from 'react-native'
 
 import {
-  Button,
-  Header,
   ListItem
 } from 'react-native-elements'
 
@@ -32,17 +27,14 @@ const list = [
   'College Shopping List'
 ]
 
-const App = () => {
+const ListsView = ({ setHeaderTitle, navigation }) => {
+  const changePage = item => {
+    setHeaderTitle(item)
+    navigation.navigate('List Details')
+  }
+
   return (
     <>
-      <Header
-        placement='left'
-        leftComponent={{ icon: 'menu', color: '#fff' }}
-        centerComponent={{ text: 'MY SHOPPING LISTS', style: styles.header }}
-        containerStyle={{
-          backgroundColor: '#E57E00'
-        }}
-      />
       <ScrollView
         contentInsetAdjustmentBehavior='automatic'
         style={styles.scrollView}
@@ -50,7 +42,11 @@ const App = () => {
         <View>
           {
             list.map((item, i) => (
-              <ListItem key={i} bottomDivider>
+              <ListItem
+                key={i}
+                bottomDivider
+                onPress={() => changePage(item)}
+              >
                 <ListItem.Content>
                   <ListItem.Title>{item}</ListItem.Title>
                 </ListItem.Content>
@@ -81,15 +77,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20
   },
-  scrollView: {
-  },
-  engine: {
-    position: 'absolute',
-    right: 0
-  },
-  body: {
-    backgroundColor: 'white'
-  },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -98,34 +85,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF848A',
     borderRadius: 50
   },
-  header: {
-    fontWeight: '600',
-    fontSize: 18,
-    color: 'white'
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600'
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400'
-  },
-  highlight: {
-    fontWeight: '700'
-  },
-  footer: {
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right'
-  }
 })
 
-export default App
+export default ListsView
