@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: '#FF848A',
     borderRadius: 50
-  },
+  }
 })
 
 export default ListsView
