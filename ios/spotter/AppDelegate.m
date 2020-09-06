@@ -3,6 +3,8 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <RadarSDK/RadarSDK.h>
+#import "ReactNativeConfig.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -27,6 +29,8 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  NSString *radarApiKey = [ReactNativeConfig envFor:@"RADAR_API_KEY"];
+  [Radar initializeWithPublishableKey:radarApiKey];
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
