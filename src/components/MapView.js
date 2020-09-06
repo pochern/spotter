@@ -39,8 +39,8 @@ Radar.on('log', (result) => {
 
 
 const MapView = () => {
-  const [lastLocation, setLastLocation] = useState({ latitude: '', longitude: '' })
-  console.log(lastLocation)
+  const [lastLocation, setLastLocation] = useState({ latitude: 50.875105, longitude: -114.123786 })
+  console.log('LAST LOCATION!!!!!!', lastLocation)
 
   Radar.setUserId('foo')
 
@@ -58,30 +58,50 @@ const MapView = () => {
     console.log('getPermissionsStatus:', err)
   })
 
-  Radar.startTrackingEfficient()
+  // Radar.startTrackingEfficient()
   console.log('started tracking efficiently')
 
   Radar.getLocation().then((result) => {
     console.log('getLocation:', stringify(result))
+    // setLastLocation({ latitude: result.location.latitude, longitude: result.location.longitude })
   }).catch((err) => {
     console.log('getLocation:', err)
   })
 
+  // console.log('NEW LOCATION!!!!', lastLocation)
+
+  Radar.stopTrip()
+
   Radar.searchPlaces({
     near: {
-      latitude: 40.783826,
-      longitude: -73.975363
+      latitude: 40.737367,
+      longitude: -73.869015
     },
-    radius: 1000,
-    chains: ['starbucks'],
+    radius: 800,  // in meters; default = 1000m; 800m = 0.5mi
+    chains: ['target'],
     limit: 10
   }).then((result) => {
+    console.log('searchPlace', stringify(result))
     // do something with result.places
   }).catch((err) => {
+    console.log('error??')
     // optionally, do something with err
   })
 
-  Radar.stopTrip()
+  // Radar.autocomplete({
+  //   query: 'target',
+  //   near: {
+  //     latitude: 40.737367,
+  //     longitude: -73.869015
+  //   },
+  //   limit: 10,
+  // }).then((result) => {
+  //   console.log('autocomplete:', stringify(result));
+  // }).catch((err) => {
+  //   console.log('autocomplete:', err);
+  // });
+
+  
 
   return (
     <>
